@@ -15,47 +15,20 @@ export class Posts extends Component {
     ],
 
     postTitle: "Posts List",
+    showPosts: true,
+    count: true,
   };
 
-  updateTitleHandler(title, e) {
-    e.preventDefault();
-
+  togglePostHandler = () => {
     this.setState({
-      postTitle: title,
-    });
-  }
-
-  titleHandler = (title, e) => {
-    e.preventDefault();
-    console.log("updating via property");
-    console.log(this);
-    this.setState({
-      postTitle: title,
+      showPosts: !this.state.showPosts,
     });
   };
 
   render() {
-    return (
-      <div>
-        <h2 className="text-2xl my-3">{this.state.postTitle}</h2>
-
-        <div>
-          <a
-            href="http://google.com"
-            className=" px-5 py-2 bg-red-500 rounded-3xl text-white"
-            onClick={this.titleHandler.bind(this, "om sai ram")}
-          >
-            Update via property
-          </a>
-          <a
-            href="http://google.com"
-            className=" px-5 py-2 bg-red-500 rounded-3xl text-white"
-            onClick={this.updateTitleHandler.bind(this, "modified")}
-          >
-            Update via method
-          </a>
-        </div>
-        <hr />
+    let posts = null;
+    if (this.state.showPosts) {
+      posts = (
         <div className="flex my-3">
           <SinglePost
             title={this.state.posts[0].title}
@@ -66,6 +39,36 @@ export class Posts extends Component {
             description={this.state.posts[1].description}
           />
         </div>
+      );
+    }
+
+    return (
+      <div>
+        {this.state.count !== true && " if true this will count displayed"}
+        <h2 className="text-2xl my-3">{this.state.postTitle}</h2>
+
+        <div>
+          <button
+            onClick={this.togglePostHandler}
+            className="px-5 py-3 bg-red-500 text-white"
+          >
+            {this.state.showPosts ? "Hide Posts" : "Show Posts"}
+          </button>
+        </div>
+        <hr />
+
+        {this.state.showPosts && (
+          <div className="flex my-3">
+            <SinglePost
+              title={this.state.posts[0].title}
+              description={this.state.posts[0].description}
+            />
+            <SinglePost
+              title={this.state.posts[1].title}
+              description={this.state.posts[1].description}
+            />
+          </div>
+        )}
       </div>
     );
   }
